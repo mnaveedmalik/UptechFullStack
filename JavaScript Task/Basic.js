@@ -440,3 +440,73 @@ for (let i = 1; i <= 100; i++) {
     }
 }
 console.log(`The sum of the number(1-100) is ${sum}`);
+
+console.log("");
+console.log("Task 9");
+//Task related to prime number 
+let num11 = 21;
+let isPrime = true;
+
+if (num <= 1) {
+    isPrime = false;
+}
+else {
+    for (let i = 2; i < num; i++) {
+        if (num11 % i === 0) {
+            isPrime = false;
+            break;
+        }
+    }
+}
+
+
+if (isPrime) {
+    console.log(`${num11} is a prime number`);
+} else {
+    console.log(`${num11} is not a prime number`);
+}
+
+
+console.log("");
+
+console.log("Task 10");
+let balance = 5000;
+let amount = 2000;
+
+if (amount <= balance) {
+    balance -= amount;
+    console.log(`Transaction successful. Remaining balance: ${balance}`);
+} else {
+    console.log("Insufficient balance");
+}
+
+
+console.log("");
+console.log("Task 11");
+let password = "Abc12345";
+
+// Conditions
+let hasNumber = /[0-9]/.test(password);
+let hasUppercase = /[A-Z]/.test(password);
+let hasLength = password.length >= 8;
+
+if (hasNumber && hasUppercase && hasLength) {
+    console.log("Password is strong");
+} else {
+    console.log("Password is weak");
+}
+
+
+console.log("");
+console.log("Task 12");
+for (let i = 1; i <= 50; i++) {
+    if (i % 3 === 0 && i % 5 === 0) {
+        console.log("FizzBuzz");
+    } else if (i % 3 === 0) {
+        console.log("Fizz");
+    } else if (i % 5 === 0) {
+        console.log("Buzz");
+    } else {
+        console.log(i);
+    }
+}
