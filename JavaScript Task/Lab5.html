@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Show/Hide Image</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        img {
+            display: none;
+            /* initially hidden */
+            max-width: 300px;
+            margin: 20px 0;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: aqua;
+            font-weight: 100;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Show/Hide Image</h2>
+
+    <!-- Image -->
+    <img id="myImage" src="https://sumpooj.com/assets/img/services/WebDevelopment.jpg" alt="Web image">
+
+    <!-- Buttons with inline onclick -->
+    <div>
+        <button id="showBtn" onclick="showImage()">Show Image</button>
+        <button id="hideBtn" style="display:none;" onclick="hideImage()">Hide Image</button>
+    </div>
+
+    <script>
+        // Get elements
+        let img = document.getElementById("myImage");
+        let showBtn = document.getElementById("showBtn");
+        let hideBtn = document.getElementById("hideBtn");
+
+        // Show image function
+        function showImage() {
+            img.style.display = "block";      // show image
+            showBtn.style.display = "none";   // hide show button
+            hideBtn.style.display = "inline"; // show hide button
+        }
+
+        // Hide image function
+        function hideImage() {
+            img.style.display = "none";       // hide image
+            showBtn.style.display = "inline"; // show show button
+            hideBtn.style.display = "none";   // hide hide button
+        }
+    </script>
+
+</body>
+
+</html>

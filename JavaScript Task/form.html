@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form</title>
+
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #74ebd5, #9face6);
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        form {
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-top: 10px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        input {
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #6a82fb;
+            box-shadow: 0 0 5px rgba(106, 130, 251, 0.5);
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            background-color: #6a82fb;
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #5a72e8;
+        }
+
+        button:active {
+            background-color: #3f57d3;
+            transform: scale(0.97);
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <form onsubmit="submitBtn(event)">
+
+        <label>Username</label>
+        <input type="text" required id="Username">
+
+        <label>Email</label>
+        <input type="email" required id="email">
+
+        <label>Adress</label>
+        <input type="text" required id="adress">
+
+        <label>Contact Number</label>
+        <input type="text" required id="number">
+
+        <label>Password</label>
+        <input type="password" required id="pass">
+
+        <button type="submit">Submit</button>
+
+    </form>
+
+    <script>
+
+        function submitBtn(event) {
+
+            event.preventDefault();
+
+            let user = document.getElementById("Username").value;
+            let email1 = document.getElementById("email").value;
+            let address1 = document.getElementById("adress").value;
+            let contact1 = document.getElementById("number").value;
+            let pass1 = document.getElementById("pass").value;
+
+            let dataArray = [user, email1, address1, contact1, pass1];
+
+            console.log(dataArray);
+            // dataArray.forEach(item => console.log(item)); // list form output
+        }
+
+    </script>
+
+</body>
+
+</html>

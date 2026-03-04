@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced CRUD To-Do App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gradient-to-r from-purple-400 via-pink-400 to-red-400 min-h-screen flex items-center justify-center">
+
+    <!-- Todo App Container -->
+    <div class="bg-white rounded-xl shadow-lg p-6 w-full max-w-md">
+        <h1 class="text-2xl font-bold text-center text-gray-800 mb-6">My To-Do List</h1>
+
+        <!-- Input Section -->
+        <div class="flex mb-4">
+            <input id="todoInput" type="text" placeholder="Add a new task..."
+                class="flex-1 border-2 border-gray-300 rounded-l px-3 py-2 focus:outline-none focus:border-purple-500">
+            <button id="addBtn"
+                class="bg-purple-500 text-white px-4 py-2 rounded-r hover:bg-purple-600 transition-colors">
+                Add
+            </button>
+        </div>
+
+        <!-- Todo List -->
+        <ul id="todoList" class="space-y-2">
+            <!-- Tasks will appear here -->
+        </ul>
+    </div>
+
+    <script>
+        const todoInput = document.getElementById('todoInput');
+        const addBtn = document.getElementById('addBtn');
+        const todoList = document.getElementById('todoList');
+
+        // Load tasks from localStorage or initialize empty array
+        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+        // Save tasks to localStorage
+        function saveTasks() {
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+        }
+
+        // Render tasks on the page
+        function renderTasks() {
+            todoList.innerHTML = ""; // Clear existing list
+
+            tasks.forEach((task, index) => {
+                const li = document.createElement('li');
+                li.className = "flex justify-between items-center bg-gray-100 px-3 py-2 rounded shadow-sm";
+
+                // Task text
+                const span = document.createElement('span');
+                span.textContent = task.text;
+                span.className = `flex-1 ${task.completed ? 'line-through text-gray-400' : 'text-gray-700'}`;
+
+                // Buttons container
+                const btnContainer = document.createElement('div');
+                btnContainer.className = "flex space-x-2";
+
+                // Complete button
+                const completeBtn = document.createElement('button');
+                completeBtn.innerHTML = "✔";
+                completeBtn.className = "text-green-500 hover:text-green-700 transition-colors";
+                completeBtn.onclick = () => {
+                    tasks[index].completed = !tasks[index].completed;
+                    saveTasks();
+                    renderTasks();
+                };
+
+                // Edit button
+                const editBtn = document.createElement('button');
+                editBtn.innerHTML = "✏️";
+                editBtn.className = "text-blue-500 hover:text-blue-700 transition-colors";
+                editBtn.onclick = () => {
+                    const newText = prompt("Edit your task:", tasks[index].text);
+                    if (newText !== null && newText.trim() !== "") {
+                        tasks[index].text = newText.trim();
+                        saveTasks();
+                        renderTasks();
+                    }
+                };
+
+                // Delete button
+                const deleteBtn = document.createElement('button');
+                deleteBtn.innerHTML = "🗑";
+                deleteBtn.className = "text-red-500 hover:text-red-700 transition-colors";
+                deleteBtn.onclick = () => {
+                    tasks.splice(index, 1);
+                    saveTasks();
+                    renderTasks();
+                };
+
+                // Move Up button
+                const upBtn = document.createElement('button');
+                upBtn.innerHTML = "⬆️";
+                upBtn.className = "text-gray-500 hover:text-gray-700 transition-colors";
+                upBtn.onclick = () => {
+                    if (index > 0) {
+                        [tasks[index - 1], tasks[index]] = [tasks[index], tasks[index - 1]]; // Swap with above
+                        saveTasks();
+                        renderTasks();
+                    }
+                };
+
+                // Move Down button
+                const downBtn = document.createElement('button');
+                downBtn.innerHTML = "⬇️";
+                downBtn.className = "text-gray-500 hover:text-gray-700 transition-colors";
+                downBtn.onclick = () => {
+                    if (index < tasks.length - 1) {
+                        [tasks[index + 1], tasks[index]] = [tasks[index], tasks[index + 1]]; // Swap with below
+                        saveTasks();
+                        renderTasks();
+                    }
+                };
+
+                // Append buttons to container
+                btnContainer.appendChild(completeBtn);
+                btnContainer.appendChild(editBtn);
+                btnContainer.appendChild(deleteBtn);
+                btnContainer.appendChild(upBtn);
+                btnContainer.appendChild(downBtn);
+
+                // Append text and buttons to list item
+                li.appendChild(span);
+                li.appendChild(btnContainer);
+
+                // Add list item to todo list
+                todoList.appendChild(li);
+            });
+        }
+
+        // Add a new task
+        function addTodo() {
+            const taskText = todoInput.value.trim();
+            if (taskText === "") {
+                alert("Please enter a task!");
+                return;
+            }
+            tasks.push({ text: taskText, completed: false });
+            saveTasks();
+            renderTasks();
+            todoInput.value = "";
+        }
+
+        // Event listeners
+        addBtn.addEventListener('click', addTodo);
+        todoInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') addTodo();
+        });
+
+        // Initial render
+        renderTasks();
+    </script>
+</body>
+
+</html>

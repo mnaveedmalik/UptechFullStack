@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App with Back Button</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gradient-to-r from-purple-400 via-pink-400 to-red-400 min-h-screen flex items-center justify-center">
+
+    <div class="bg-white rounded-xl shadow-lg p-6 w-full max-w-3xl">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Ultimate Quiz Challenge</h1>
+
+        <div id="start-screen" class="text-center">
+            <button id="startBtn"
+                class="bg-purple-500 text-white px-6 py-3 rounded hover:bg-purple-600 transition-colors">Start
+                Quiz</button>
+        </div>
+
+        <form id="quiz-form" class="hidden space-y-4">
+            <div id="question-container" class="space-y-4"></div>
+            <div class="flex justify-between mt-4">
+                <button type="button" id="backBtn"
+                    class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition-colors">Back</button>
+                <button type="button" id="nextBtn"
+                    class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors">Next</button>
+                <button type="submit" id="submitBtn"
+                    class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors">Submit</button>
+            </div>
+        </form>
+
+        <div id="result-screen" class="hidden text-center mt-6">
+            <h2 id="result-message" class="text-2xl font-bold mb-2"></h2>
+            <p id="score-text" class="text-lg mb-4"></p>
+            <button id="checkAnswersBtn"
+                class="bg-purple-500 text-white px-6 py-3 rounded hover:bg-purple-600 transition-colors">Check
+                Answers</button>
+        </div>
+    </div>
+
+    <script>
+        // Quiz Data
+        const quizData = [
+            { q: "What is the capital of France?", options: ["Paris", "London", "Berlin", "Madrid"], answer: 0 },
+            { q: "Which planet is known as the Red Planet?", options: ["Earth", "Mars", "Jupiter", "Venus"], answer: 1 },
+            { q: "What is 5 + 7?", options: ["10", "12", "11", "13"], answer: 1 },
+            { q: "HTML stands for?", options: ["Hyper Text Markup Language", "Hyperlinks Text", "Hyper Tool Language", "High Text Machine Language"], answer: 0 },
+            { q: "CSS stands for?", options: ["Cascading Style Sheets", "Computer Style Sheets", "Colorful Style Sheets", "Creative Style Sheets"], answer: 0 },
+            { q: "JS stands for?", options: ["JavaScript", "JavaStyle", "JustScript", "JollyScript"], answer: 0 },
+            { q: "Which one is a programming language?", options: ["Python", "Snake", "Lion", "Elephant"], answer: 0 },
+            { q: "Which company developed React?", options: ["Facebook", "Google", "Microsoft", "Apple"], answer: 0 },
+            { q: "The largest ocean is?", options: ["Pacific", "Atlantic", "Indian", "Arctic"], answer: 0 },
+            { q: "Which gas is essential for breathing?", options: ["Oxygen", "Carbon dioxide", "Nitrogen", "Helium"], answer: 0 },
+            { q: "The powerhouse of the cell is?", options: ["Mitochondria", "Nucleus", "Ribosome", "Chloroplast"], answer: 0 },
+            { q: "HTML uses which tag for heading?", options: ["<h1>", "<head>", "<header>", "<h>"], answer: 0 },
+            { q: "CSS property for text color?", options: ["color", "font-color", "text-color", "background-color"], answer: 0 },
+            { q: "Which HTML tag is for a paragraph?", options: ["<p>", "<para>", "<paragraph>", "<text>"], answer: 0 },
+            { q: "Which method is used to write to console in JS?", options: ["console.log()", "print()", "echo()", "write()"], answer: 0 },
+            { q: "Which HTML element defines a link?", options: ["<a>", "<link>", "<href>", "<url>"], answer: 0 }
+        ];
+
+        let currentBatch = 0;
+        const batchSize = 8;
+        let selectedAnswers = Array(quizData.length).fill(null);
+
+        const startBtn = document.getElementById('startBtn');
+        const quizForm = document.getElementById('quiz-form');
+        const questionContainer = document.getElementById('question-container');
+        const nextBtn = document.getElementById('nextBtn');
+        const backBtn = document.getElementById('backBtn');
+        const submitBtn = document.getElementById('submitBtn');
+        const resultScreen = document.getElementById('result-screen');
+        const resultMessage = document.getElementById('result-message');
+        const scoreText = document.getElementById('score-text');
+        const checkAnswersBtn = document.getElementById('checkAnswersBtn');
+
+        function renderBatch() {
+            questionContainer.innerHTML = "";
+            const start = currentBatch * batchSize;
+            const end = Math.min(start + batchSize, quizData.length);
+
+            for (let i = start; i < end; i++) {
+                const qData = quizData[i];
+                const div = document.createElement('div');
+                div.className = "bg-gray-100 p-4 rounded shadow-sm";
+                div.id = `question-${i}`;
+
+                const qText = document.createElement('p');
+                qText.className = "font-semibold mb-2";
+                qText.textContent = `${i + 1}. ${qData.q}`;
+                div.appendChild(qText);
+
+                qData.options.forEach((option, idx) => {
+                    const label = document.createElement('label');
+                    label.className = "flex items-center mb-1 space-x-2 cursor-pointer";
+
+                    const input = document.createElement('input');
+                    input.type = "radio";
+                    input.name = `question-${i}`;
+                    input.value = idx;
+                    input.checked = selectedAnswers[i] === idx;
+
+                    input.addEventListener('change', () => {
+                        selectedAnswers[i] = idx;
+                        div.classList.remove('border-2', 'border-red-500'); // remove highlight if answered
+                    });
+
+                    const span = document.createElement('span');
+                    span.textContent = option;
+
+                    label.appendChild(input);
+                    label.appendChild(span);
+                    div.appendChild(label);
+                });
+
+                questionContainer.appendChild(div);
+            }
+
+            // Show/Hide buttons
+            backBtn.style.display = currentBatch > 0 ? "inline-block" : "none";
+            nextBtn.style.display = end < quizData.length ? "inline-block" : "none";
+            submitBtn.style.display = end >= quizData.length ? "inline-block" : "none";
+        }
+
+        startBtn.addEventListener('click', () => {
+            document.getElementById('start-screen').classList.add('hidden');
+            quizForm.classList.remove('hidden');
+            renderBatch();
+        });
+
+        nextBtn.addEventListener('click', () => {
+            currentBatch++;
+            renderBatch();
+        });
+
+        backBtn.addEventListener('click', () => {
+            currentBatch--;
+            renderBatch();
+        });
+
+        quizForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            // Highlight unanswered questions
+            const unanswered = [];
+            quizData.forEach((qData, i) => {
+                if (selectedAnswers[i] === null) {
+                    unanswered.push(i + 1);
+                    const div = document.getElementById(`question-${i}`);
+                    if (div) div.classList.add('border-2', 'border-red-500');
+                }
+            });
+
+            if (unanswered.length > 0) {
+                alert(`Please answer the following questions: ${unanswered.join(", ")}`);
+                return;
+            }
+
+            // Calculate score
+            let score = 0;
+            for (let i = 0; i < quizData.length; i++) {
+                if (selectedAnswers[i] === quizData[i].answer) score++;
+            }
+
+            quizForm.classList.add('hidden');
+            resultScreen.classList.remove('hidden');
+
+            scoreText.textContent = `You scored ${score} out of ${quizData.length}`;
+            if (score >= 10) {
+                resultMessage.textContent = "🎉 Congrats! You Passed!";
+                resultMessage.className = "text-2xl font-bold mb-2 text-green-600";
+            } else {
+                resultMessage.textContent = "😔 Better luck next time!";
+                resultMessage.className = "text-2xl font-bold mb-2 text-red-600";
+            }
+        });
+
+        // Check answers
+        checkAnswersBtn.addEventListener('click', () => {
+            questionContainer.innerHTML = "";
+            quizForm.classList.remove('hidden');
+            resultScreen.classList.add('hidden');
+            currentBatch = 0;
+
+            quizData.forEach((qData, i) => {
+                const div = document.createElement('div');
+                div.className = "bg-gray-100 p-4 rounded shadow-sm mb-2";
+
+                const qText = document.createElement('p');
+                qText.className = "font-semibold mb-2";
+                qText.textContent = `${i + 1}. ${qData.q}`;
+                div.appendChild(qText);
+
+                qData.options.forEach((option, idx) => {
+                    const span = document.createElement('span');
+                    span.className = "block p-1 rounded";
+                    span.textContent = option;
+
+                    if (idx === qData.answer) span.classList.add("bg-green-200");
+                    if (selectedAnswers[i] === idx && idx !== qData.answer) span.classList.add("bg-red-200");
+
+                    div.appendChild(span);
+                });
+
+                questionContainer.appendChild(div);
+            });
+
+            nextBtn.style.display = "none";
+            backBtn.style.display = "none";
+            submitBtn.style.display = "none";
+        });
+    </script>
+</body>
+
+</html>

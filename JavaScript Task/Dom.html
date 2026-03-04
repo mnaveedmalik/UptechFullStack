@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counter App</title>
+
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #eef2f7;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .box {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 320px;
+        }
+
+        h1 {
+            font-size: 35px;
+            font-weight: bold;
+            margin-bottom: 25px;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: #f4f6f9;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        button {
+            padding: 10px;
+            border-radius: 8px;
+            width: 90px;
+            font-size: 15px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="box">
+
+        <h1 id="Counting">0</h1>
+
+        <div class="btn-group">
+            <button id="increment" onclick="Increase()"
+                style="color: green;background-color: lightblue;">Increase</button>
+            <button id="decrease" onclick="Decrease()"
+                style="color: red;background-color: lightcoral;">Decrease</button>
+            <button id="reset" onclick="reset()" style="color:blue;background-color:aqua;">Reset</button>
+        </div>
+
+    </div>
+
+
+    <script>
+        let num = 0;
+        let counter = document.getElementById("Counting");
+
+        function Increase() {
+            num++;
+            counter.innerHTML = num;
+            counter.style.color = "green";
+        }
+
+        function Decrease() {
+            num--;
+            counter.innerHTML = num;
+            counter.style.color = "red";
+        }
+
+        function reset() {
+            num = 0;
+            counter.innerHTML = num;
+            counter.style.color = "blue";
+        }
+    </script>
+
+</body>
+
+</html>
