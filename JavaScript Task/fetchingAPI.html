@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Fetching API with Async Await</title>
+</head>
+
+<body>
+
+    <h1>Posts Data</h1>
+
+    <button onclick="getPosts()">Load Posts</button>
+
+    <ul id="postList"> </ul>
+
+    <script>
+
+        // 1️⃣ Create async function
+        async function getPosts() {
+
+            try {
+
+                // 2️⃣ Fetch data from API
+                let response = await fetch("https://jsonplaceholder.typicode.com/posts");
+
+                // 3️⃣ Convert response into JSON
+                let data = await response.json();
+
+                // 4️⃣ Select UL
+                let postList = document.getElementById("postList");
+
+                postList.innerHTML = ""; // clear old data
+
+                // 5️⃣ Loop through data
+                data.slice(0, 10).forEach(function (post) {
+
+                    let li = document.createElement("li");
+
+                    li.innerHTML = "<strong>" + post.id + "</strong>";
+
+                    postList.appendChild(li);
+
+                });
+
+            } catch (error) {
+
+                console.log("Error:", error);
+
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>
