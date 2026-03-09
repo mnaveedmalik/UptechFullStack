@@ -1,0 +1,155 @@
+<!-- Fetching the API -->
+
+
+<!-- 
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Fetch API Example</title>
+</head>
+
+<body>
+
+    <h2>User Data</h2>
+
+    <button onclick="getData()">Load Users</button>
+
+    <ul id="data"></ul>
+
+
+
+    <script>
+        async function getData() {
+
+            try {
+
+                let response = await fetch("https://jsonplaceholder.typicode.com/users");
+
+                let data = await response.json();
+
+                let list = document.getElementById("data");
+
+                list.innerHTML = "";
+
+                data.forEach(user => {
+
+                    let li = document.createElement("li");
+
+                    li.innerText = user.name;
+
+                    list.appendChild(li);
+
+                });
+
+            }
+
+            catch (error) {
+                console.log("Error:", error);
+            }
+
+        }
+
+    </script>
+</body>
+
+
+
+</html> -->
+
+
+
+<!-- 
+Delete , update through the API -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>CRUD with Async/Await</title>
+</head>
+
+<body>
+
+    <h2>User Data</h2>
+
+    <button onclick="getData()">Load Users</button>
+    <ul id="data"></ul>
+
+
+    <script>
+
+        // Fetch and display users
+        async function getData() {
+            try {
+                let response = await fetch("https://jsonplaceholder.typicode.com/users");
+                let data = await response.json();
+
+                let list = document.getElementById("data");
+                list.innerHTML = "";
+
+                data.forEach(user => {
+                    let li = document.createElement("li");
+                    li.innerHTML = `
+                ${user.name} 
+                <button onclick="updateUser(${user.id})">Edit</button>
+                <button onclick="deleteUser(${user.id}, this)">Delete</button>
+            `;
+                    list.appendChild(li);
+                });
+
+            } catch (error) {
+                console.log("Error:", error);
+            }
+        }
+
+        // Update/Edit user
+        async function updateUser(id) {
+            try {
+                let newName = prompt("Enter new name for user ID " + id);
+                if (!newName) return;
+
+                let response = await fetch(`https://jsonplaceholder.typicode.com/users/${id}`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ name: newName })
+                });
+
+                let data = await response.json();
+                alert(`User updated: ${data.name}`);
+
+                // Refresh the list
+                getData();
+
+            } catch (error) {
+                console.log("Error:", error);
+            }
+        }
+
+        // Delete user
+        async function deleteUser(id, btn) {
+            try {
+                let confirmDelete = confirm("Are you sure you want to delete user ID " + id + "?");
+                if (!confirmDelete) return;
+
+                let response = await fetch(`https://jsonplaceholder.typicode.com/users/${id}`, {
+                    method: "DELETE"
+                });
+
+                if (response.ok) {
+                    alert("User deleted successfully");
+                    // Remove from UI immediately
+                    btn.parentElement.remove();
+                }
+
+            } catch (error) {
+                console.log("Error:", error);
+            }
+        }
+    </script>
+
+</body>
+
+</html>
