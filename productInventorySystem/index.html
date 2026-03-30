@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Product Inventory</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+
+    <h1 class="text-4xl font-bold text-center mt-6 text-blue-600">
+        Product Inventory System
+    </h1>
+
+    <!-- ADD PRODUCT BUTTON -->
+
+    <div class="text-center mt-6">
+
+        <button id="addBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg shadow">
+            Add Product
+        </button>
+
+    </div>
+
+
+    <!-- PRODUCT FORM -->
+
+    <form id="productForm" class="bg-white shadow-lg p-6 m-6 rounded-xl hidden">
+
+        <h2 class="text-2xl font-semibold mb-4">Product Form</h2>
+
+        <input id="title" placeholder="Title" class="border p-2 w-full mb-3 rounded" required>
+
+        <input id="price" placeholder="Price" class="border p-2 w-full mb-3 rounded" required>
+
+        <input id="category" placeholder="Category" class="border p-2 w-full mb-3 rounded" required>
+
+        <input id="image" placeholder="Image URL" class="border p-2 w-full mb-3 rounded" required>
+
+        <textarea id="description" placeholder="Description" class="border p-2 w-full mb-3 rounded" required></textarea>
+
+        <button class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded">
+            Save Product
+        </button>
+
+    </form>
+
+
+    <!-- FILTER -->
+
+    <div class="m-6">
+
+        <select id="filterCategory" class="border p-2 rounded">
+
+            <option value="all">All Categories</option>
+            <option value="electronics">electronics</option>
+            <option value="jewelery">jewelery</option>
+            <option value="men's clothing">men's clothing</option>
+            <option value="women's clothing">women's clothing</option>
+
+        </select>
+
+    </div>
+
+
+    <!-- LOADING -->
+
+    <div id="loading" class="text-center text-xl hidden">
+        Loading Products...
+    </div>
+
+
+    <!-- PRODUCTS -->
+
+    <div id="productContainer" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
+    </div>
+
+
+    <p id="emptyMessage" class="text-center text-gray-500 hidden">
+        No Products Found
+    </p>
+
+    <script src="productInventory.js"></script>
+
+</body>
+
+</html>
