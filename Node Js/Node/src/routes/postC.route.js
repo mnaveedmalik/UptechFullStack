@@ -6,7 +6,7 @@ const { data, std } = require("../controller/postCode");
 
 
 router.get("/", data);
+router.post("/st", std);
 
-router.get("/std", std);
 
 module.exports = router;

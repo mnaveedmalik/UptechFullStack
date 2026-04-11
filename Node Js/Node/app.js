@@ -4,7 +4,8 @@ const port = 3000;
 const userData = require("./src/routes/postC.route")
 
 
-app.use("/datas", userData);
+app.use("/", userData);
+
 
 app.listen(port, () => {
     console.log(`Server running http://localhost:${port}/`)

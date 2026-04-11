@@ -80,6 +80,6 @@ console.log("");
 
 console.log("Task 8");
 
-let firstDiv2 = num.find(n => n % 2 === 0);
+let firstDiv2 = numbers.find(n => n % 2 === 0);
 console.log(`The first number divide by 2 is : ${firstDiv2}`);
 

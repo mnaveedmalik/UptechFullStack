@@ -3,7 +3,7 @@ const data = (req, res) => {
 }
 
 const std = (req, res) => {
-    res.send("hello from  std contyroller ")
+    res.send("hello from  std controller ")
 }
 
 

@@ -1,4 +1,5 @@
-import GrandChild from "./GrandChild";
+import GrandChild from "./Grandchild";
+
 
 function Child(props) {
     return (
